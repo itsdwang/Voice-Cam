@@ -16,6 +16,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DisplayImagesActivity extends AppCompatActivity {
@@ -36,6 +37,14 @@ public class DisplayImagesActivity extends AppCompatActivity {
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
 
         File listFile[] = directory.listFiles();
+
+        // can definitely improve below for better runtime
+        Arrays.sort(listFile, new Comparator<File>(){
+            public int compare(File f1, File f2)
+            {
+                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+            } });
+
         imgItemArr = new ImageItem[listFile.length]; // make it the same len. as listFile
 
         for (int x = 0; x < listFile.length; x++) {

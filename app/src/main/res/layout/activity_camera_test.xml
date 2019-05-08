@@ -10,8 +10,7 @@
     <com.camerakit.CameraKitView
         android:id="@+id/camera"
         android:layout_width="match_parent"
-        android:layout_height="596dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="617dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/takePhotoBtn"
         app:layout_constraintEnd_toEndOf="parent"
