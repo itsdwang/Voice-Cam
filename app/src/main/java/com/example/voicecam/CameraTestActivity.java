@@ -19,6 +19,8 @@ import com.camerakit.CameraKitView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class CameraTestActivity extends AppCompatActivity {
     private CameraKitView cameraKitView;
@@ -73,31 +75,6 @@ public class CameraTestActivity extends AppCompatActivity {
         cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    /*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.d("Debug", "Inside onRequestPermissionsResult");
-
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
-
-                    // main logic
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-                                Toast.makeText(getApplicationContext(), "shiiiet", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-                break;
-        }
-    }
-    */
-
     public void takePhoto(View view) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
@@ -135,8 +112,11 @@ public class CameraTestActivity extends AppCompatActivity {
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
 
                 // path to /data/data/yourapp/app_data/imageDir
+
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+
                 File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                File mypath = new File(directory,"img" + imgNum + ".jpg");
+                File mypath = new File(directory,"img" + imgNum + "_" + currentDateTimeString + ".jpg");
                 imgNum++;
 
                 FileOutputStream fos = null;
