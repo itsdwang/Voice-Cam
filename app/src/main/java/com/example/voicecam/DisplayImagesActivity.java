@@ -59,7 +59,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
             String filePath = f.getPath();
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
 
-            imgItemArr[x] = new ImageItem(f.getName(), bitmap);
+            imgItemArr[x] = new ImageItem(f.getName(), f, bitmap);
         }
 
         ArrayList<ImageItem> arrList = new ArrayList<ImageItem>(Arrays.asList(imgItemArr));
@@ -90,6 +90,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ImageItem i = (ImageItem) parent.getItemAtPosition(position);
+                final File f = i.getFile();
 
                 String title = i.getName();
                 Toast.makeText(DisplayImagesActivity.this,"Image Title:" + title, Toast.LENGTH_SHORT).show();
@@ -104,6 +105,11 @@ public class DisplayImagesActivity extends AppCompatActivity {
                         }
                         else if ("Delete".equals(options[which])){
                             Log.d("debug", "delete was clicked");
+                            boolean deleted = f.delete();
+
+                            // Refresh activity
+                            finish();
+                            startActivity(getIntent());
                         }
                         else if ("Share".equals(options[which])){
                             Log.d("debug", "grid item was clicked");
