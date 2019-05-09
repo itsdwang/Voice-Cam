@@ -1,16 +1,21 @@
 package com.example.voicecam;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,6 +29,8 @@ public class DisplayImagesActivity extends AppCompatActivity {
     ImageAdapter imgAdapter = null;
     ArrayList<ImageItem> list;
     ImageItem[] imgItemArr;
+    String[] options = {"Rename", "Delete", "Share"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,5 +84,34 @@ public class DisplayImagesActivity extends AppCompatActivity {
             }
         }
         */
+
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ImageItem i = (ImageItem) parent.getItemAtPosition(position);
+
+                String title = i.getName();
+                Toast.makeText(DisplayImagesActivity.this,"Image Title:" + title, Toast.LENGTH_SHORT).show();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(DisplayImagesActivity.this);
+                builder.setTitle("Options");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if ("Rename".equals(options[which])){
+                            Log.d("debug", "rename was clicked");
+                        }
+                        else if ("Delete".equals(options[which])){
+                            Log.d("debug", "delete was clicked");
+                        }
+                        else if ("Share".equals(options[which])){
+                            Log.d("debug", "grid item was clicked");
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
     }
 }

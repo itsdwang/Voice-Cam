@@ -1,14 +1,21 @@
 package com.example.voicecam;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.content.DialogInterface;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 
 import java.util.ArrayList;
 
@@ -16,6 +23,7 @@ public class ImageAdapter extends ArrayAdapter<ImageItem> {
     private Context context;
     private int layout;
     private ArrayList<ImageItem> dbList;
+    private String[] options = {"Rename", "Delete", "Share"};
 
     public ImageAdapter(Context context, int layout, ArrayList<ImageItem> images) {
         super(context, 0, images);
