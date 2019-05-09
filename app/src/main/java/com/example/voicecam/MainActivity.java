@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if(matches != null) {
                     editText.setText(matches.get(0));
+                    if(matches.get(0).equals("take a picture")){
+                        Intent intent = new Intent(MainActivity.this, CameraTestActivity.class);
+                        intent.putExtra("message", "take a picture");
+                        startActivity(intent);
+                    }
                 }
             }
 
