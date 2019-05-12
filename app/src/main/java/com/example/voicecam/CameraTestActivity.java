@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.camerakit.CameraKitView;
 
@@ -98,16 +99,16 @@ public class CameraTestActivity extends AppCompatActivity {
 
         cameraKitView.captureImage(new CameraKitView.ImageCallback() {
             @Override
-
             public void onImage(CameraKitView cameraKitView, final byte[] capturedImage) {
                 Log.d(this.getClass().getSimpleName(), "Inside takePhoto method, captureImage");
+                Toast.makeText(getApplicationContext(), "Photo taken", Toast.LENGTH_SHORT).show();
 
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
                 String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
                 // path to /data/data/yourapp/app_data/imageDir
                 File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                File myPath = new File(directory,"img" + imgNum + "_" + currentDateTimeString + ".jpg");
+                File myPath = new File(directory,currentDateTimeString + ".jpg");
                 imgNum++;
 
                 FileOutputStream fos = null;
