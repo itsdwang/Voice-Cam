@@ -23,7 +23,6 @@ public class ImageAdapter extends ArrayAdapter<ImageItem> {
     private Context context;
     private int layout;
     private ArrayList<ImageItem> dbList;
-    private String[] options = {"Rename", "Delete", "Share"};
 
     public ImageAdapter(Context context, int layout, ArrayList<ImageItem> images) {
         super(context, 0, images);
@@ -70,7 +69,6 @@ public class ImageAdapter extends ArrayAdapter<ImageItem> {
 
         ImageItem i = dbList.get(position);
         holder.title.setText(i.getName());
-
         holder.imageView.setImageBitmap(i.getImage());
 
         return row;

@@ -9,19 +9,23 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class DisplayImagesActivity extends AppCompatActivity {
@@ -30,6 +34,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
     ArrayList<ImageItem> list;
     ImageItem[] imgItemArr;
     String[] options = {"Rename", "Delete", "Share"};
+    private String m_Text = "";
 
 
     @Override
@@ -85,39 +90,83 @@ public class DisplayImagesActivity extends AppCompatActivity {
         }
         */
 
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ImageItem i = (ImageItem) parent.getItemAtPosition(position);
-                final File f = i.getFile();
+            ImageItem i = (ImageItem) parent.getItemAtPosition(position);
+            final File f = i.getFile();
 
-                String title = i.getName();
-                Toast.makeText(DisplayImagesActivity.this,"Image Title:" + title, Toast.LENGTH_SHORT).show();
+            String title = i.getName();
+            Toast.makeText(DisplayImagesActivity.this,"Image Title:" + title, Toast.LENGTH_SHORT).show();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(DisplayImagesActivity.this);
-                builder.setTitle("Options");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if ("Rename".equals(options[which])){
-                            Log.d("debug", "rename was clicked");
-                        }
-                        else if ("Delete".equals(options[which])){
-                            Log.d("debug", "delete was clicked");
-                            boolean deleted = f.delete();
+            AlertDialog.Builder builder = new AlertDialog.Builder(DisplayImagesActivity.this);
+            builder.setTitle("Options");
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                if ("Rename".equals(options[which])){
+                    Log.d("debug", "rename was clicked");
+
+                    // Create another action dialog
+                    AlertDialog.Builder nameBuilder = new AlertDialog.Builder(DisplayImagesActivity.this);
+                    nameBuilder.setTitle("Rename Photo");
+
+                    final EditText input = new EditText(DisplayImagesActivity.this);
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                    nameBuilder.setView(input);
+
+                    nameBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            m_Text = input.getText().toString();
+                            Log.d("Debug", "RENAMED File is: " + m_Text + ".jpg");
+
+                            renameFile(f, m_Text + ".jpg");
 
                             // Refresh activity
+
+
                             finish();
                             startActivity(getIntent());
                         }
-                        else if ("Share".equals(options[which])){
-                            Log.d("debug", "grid item was clicked");
+                    });
+
+                    nameBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
                         }
-                    }
-                });
-                builder.show();
+                    });
+
+                    Log.d("Debug", "RENAMED File is: " + m_Text);
+                    AlertDialog ad = nameBuilder.show();
+
+                }
+                else if ("Delete".equals(options[which])){
+                    Log.d("debug", "delete was clicked");
+                    f.delete();
+
+                    // Refresh activity
+                    finish();
+                    startActivity(getIntent());
+                }
+                else if ("Share".equals(options[which])){
+                    Log.d("debug", "grid item was clicked");
+                }
+                }
+            });
+            builder.show();
             }
         });
+    }
+
+    public void renameFile(File f, String s) {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+
+
+        File newFile = new File(directory, s);
+        f.renameTo(newFile);
     }
 }
