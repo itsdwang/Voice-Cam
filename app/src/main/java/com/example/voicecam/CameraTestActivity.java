@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class CameraTestActivity extends AppCompatActivity {
     private CameraKitView cameraKitView;
@@ -33,6 +34,20 @@ public class CameraTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_test);
         cameraKitView = findViewById(R.id.camera);
+        Button button = findViewById(R.id.takePhotoBtn);
+        
+        /*need to check if data was received & need to know where to put the wait
+            Intent intent = getIntent();
+            String message = intent.getStringExtra("message");
+            if (message.equals("take a picture")) {
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                takePhoto(button);
+            }
+         */
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
