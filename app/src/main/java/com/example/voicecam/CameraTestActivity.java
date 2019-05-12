@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.camerakit.CameraKitView;
 
@@ -21,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class CameraTestActivity extends AppCompatActivity {
     private CameraKitView cameraKitView;
@@ -34,27 +32,12 @@ public class CameraTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_test);
         cameraKitView = findViewById(R.id.camera);
-        Button button = findViewById(R.id.takePhotoBtn);
-        
-        /*need to check if data was received & need to know where to put the wait
-            Intent intent = getIntent();
-            String message = intent.getStringExtra("message");
-            if (message.equals("take a picture")) {
-                try {
-                    TimeUnit.SECONDS.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                takePhoto(button);
-            }
-         */
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
         } else {
-            Toast.makeText(getApplicationContext(), "Inside onImage, PERMISSION GRANTED FOR EXTERNAL STORAGE", Toast.LENGTH_SHORT).show();
-            Log.d("Debug", "Inside onImage, PERMISSION GRANTED FOR EXTERNAL STORAGE");
+            Log.d(this.getClass().getSimpleName(), "Permission granted for external storage");
         }
     }
 
@@ -84,7 +67,7 @@ public class CameraTestActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.d("Debug", "Inside onRequestPermissionsResult");
+        Log.d(this.getClass().getSimpleName(), "Inside onRequestPermissionsResult");
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -92,54 +75,47 @@ public class CameraTestActivity extends AppCompatActivity {
 
     public void takePhoto(View view) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            Toast.makeText(getApplicationContext(), "Inside onImage, CAMERA PERMISSION NOT GRANTED", Toast.LENGTH_SHORT).show();
+            Log.d(this.getClass().getSimpleName(), "Camera permission not granted");
         } else {
-            Toast.makeText(getApplicationContext(), "Inside onImage, CAMERA PERMISSION GRANTED", Toast.LENGTH_SHORT).show();
+            Log.d(this.getClass().getSimpleName(), "Camera permission granted");
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            Log.d("Debug", "Inside onImage, PERMISSION NOT GRANTED FOR AUDIO");
+            Log.d(this.getClass().getSimpleName(), "Audio permission not granted");
         } else {
-            Log.d("Debug", "Inside onImage, PERMISSION GRANTED FOR AUDIO");
+            Log.d(this.getClass().getSimpleName(), "Audio permission granted");
         }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            Toast.makeText(getApplicationContext(), "Inside onImage, PERMISSION NOT GRANTED FOR EXTERNAL STORAGE", Toast.LENGTH_SHORT).show();
-            Log.d("Debug", "Inside onImage, PERMISSION NOT GRANTED FOR EXTERNAL STORAGE");
+            Log.d(this.getClass().getSimpleName(), "Permission not granted for external storage");
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
         } else {
-            Toast.makeText(getApplicationContext(), "Inside onImage, PERMISSION GRANTED FOR EXTERNAL STORAGE", Toast.LENGTH_SHORT).show();
-            Log.d("Debug", "Inside onImage, PERMISSION GRANTED FOR EXTERNAL STORAGE");
+            Log.d(this.getClass().getSimpleName(), "Permission granted for external storage");
         }
 
         cameraKitView.captureImage(new CameraKitView.ImageCallback() {
             @Override
 
             public void onImage(CameraKitView cameraKitView, final byte[] capturedImage) {
-                Log.d("Debug", "Inside takePhoto method");
+                Log.d(this.getClass().getSimpleName(), "Inside takePhoto method, captureImage");
 
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
-
-                // path to /data/data/yourapp/app_data/imageDir
-
                 String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
+                // path to /data/data/yourapp/app_data/imageDir
                 File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                File mypath = new File(directory,"img" + imgNum + "_" + currentDateTimeString + ".jpg");
+                File myPath = new File(directory,"img" + imgNum + "_" + currentDateTimeString + ".jpg");
                 imgNum++;
 
                 FileOutputStream fos = null;
                 Bitmap bitmapImage = BitmapFactory.decodeByteArray(capturedImage, 0, capturedImage.length);
 
                 try {
-                    fos = new FileOutputStream(mypath);
-                    bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos = new FileOutputStream(myPath);
+                    bitmapImage.compress(Bitmap.CompressFormat.JPEG, 60, fos);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
