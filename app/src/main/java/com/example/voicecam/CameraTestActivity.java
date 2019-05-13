@@ -3,6 +3,7 @@ package com.example.voicecam;
 import android.Manifest;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +14,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
+
+import android.os.Handler;
 
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
@@ -35,6 +39,30 @@ public class CameraTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_test);
         cameraKitView = findViewById(R.id.camera);
+
+        Intent intent = getIntent();
+
+        try {
+            String message = intent.getStringExtra("message");
+            Log.d("debug", "message is: " + message);
+
+            if (message.equals("take a picture")) {
+                Log.d("debug", "take a pic was said!");
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(CameraTestActivity.this, "voice to take photo said", Toast.LENGTH_LONG).show();
+                        Log.d("Debug","inside delay handler");
+
+                        takePhoto(cameraKitView);
+                    }
+                }, 3000);
+            }
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -77,6 +105,8 @@ public class CameraTestActivity extends AppCompatActivity {
     }
 
     public void takePhoto(View view) {
+        Log.d("debug", "INSIDE TAKE PHOTO METHOD");
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             Log.d(this.getClass().getSimpleName(), "Camera permission not granted");
         } else {
@@ -102,7 +132,7 @@ public class CameraTestActivity extends AppCompatActivity {
         cameraKitView.captureImage(new CameraKitView.ImageCallback() {
             @Override
             public void onImage(CameraKitView cameraKitView, final byte[] capturedImage) {
-                Log.d(this.getClass().getSimpleName(), "Inside takePhoto method, captureImage");
+                Log.d("Debug", "Inside takePhoto method, captureImage");
                 Toast.makeText(getApplicationContext(), "Photo taken", Toast.LENGTH_SHORT).show();
 
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
@@ -130,6 +160,8 @@ public class CameraTestActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Log.d("Debug", "after cameraKit.capture");
     }
 
     public void flipCamera(View view) {
