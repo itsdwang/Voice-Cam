@@ -12,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
 
 import java.io.File;
@@ -128,5 +130,10 @@ public class CameraTestActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void flipCamera(View view) {
+        Toast.makeText(CameraTestActivity.this, "Flipped camera", Toast.LENGTH_SHORT).show();
+        cameraKitView.toggleFacing();
     }
 }
