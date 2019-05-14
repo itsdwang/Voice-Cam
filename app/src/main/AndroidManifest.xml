@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".FullImageActivity"></activity>
         <activity android:name=".DisplayImagesActivity" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CameraTestActivity" />
+        <activity android:name=".CameraTestActivity" android:screenOrientation="portrait" />
         <activity android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" android:screenOrientation="portrait">
             <intent-filter>

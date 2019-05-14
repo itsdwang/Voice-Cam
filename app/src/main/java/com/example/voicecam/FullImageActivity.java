@@ -26,7 +26,6 @@ public class FullImageActivity extends AppCompatActivity {
             ImageView image = (ImageView) findViewById(R.id.fullImageView);
             image.setImageBitmap(bmp);
 
-
             PhotoViewAttacher pAttacher = new PhotoViewAttacher(image);
             pAttacher.update();
         } catch(NullPointerException n) {

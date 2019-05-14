@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
                         break;
                 }
+
                 return false;
             }
         });

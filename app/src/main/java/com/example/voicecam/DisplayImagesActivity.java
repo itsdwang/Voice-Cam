@@ -92,7 +92,6 @@ public class DisplayImagesActivity extends AppCompatActivity {
             }
         });
 
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -104,66 +103,66 @@ public class DisplayImagesActivity extends AppCompatActivity {
                 builder.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if ("Rename".equals(options[which])){
-                            Log.d(this.getClass().getSimpleName(), "Rename clicked");
+                    if ("Rename".equals(options[which])){
+                        Log.d(this.getClass().getSimpleName(), "Rename clicked");
 
-                            // Create another action dialog
-                            AlertDialog.Builder nameBuilder = new AlertDialog.Builder(DisplayImagesActivity.this);
-                            nameBuilder.setTitle("Rename Photo");
+                        // Create another action dialog
+                        AlertDialog.Builder nameBuilder = new AlertDialog.Builder(DisplayImagesActivity.this);
+                        nameBuilder.setTitle("Rename Photo");
 
-                            final EditText input = new EditText(DisplayImagesActivity.this);
-                            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
-                            nameBuilder.setView(input);
+                        final EditText input = new EditText(DisplayImagesActivity.this);
+                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
+                        nameBuilder.setView(input);
 
-                            nameBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                renamedFile = input.getText().toString();
-                                Log.d("Debug", "Renamed File: " + renamedFile + ".jpg");
+                        nameBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            renamedFile = input.getText().toString();
+                            Log.d("Debug", "Renamed File: " + renamedFile + ".jpg");
 
-                                renameFile(f, renamedFile + ".jpg");
-
-                                // Refresh activity
-                                finish();
-                                startActivity(getIntent());
-                                }
-                            });
-
-                            nameBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                            AlertDialog ad = nameBuilder.show();
-                        }
-                        else if ("Delete".equals(options[which])){
-                            Log.d("Debug", "Delete clicked");
-
-                            f.delete();
+                            renameFile(f, renamedFile + ".jpg");
 
                             // Refresh activity
                             finish();
                             startActivity(getIntent());
-                        }
-                        else if ("Share".equals(options[which])){
-                            Log.d("Debug", "Share clicked");
+                            }
+                        });
 
-                            // Remove the strict mode policies
-                            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                            StrictMode.setVmPolicy(builder.build());
+                        nameBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
 
-                            Log.d(this.getClass().getSimpleName(), "Grid item clicked");
-                            Uri u = Uri.fromFile(f);
+                        AlertDialog ad = nameBuilder.show();
+                    }
+                    else if ("Delete".equals(options[which])){
+                        Log.d("Debug", "Delete clicked");
 
-                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                            shareIntent.setType("Image/*");
-                            shareIntent.putExtra(Intent.EXTRA_STREAM, u);
+                        f.delete();
 
-                            startActivityForResult(shareIntent, 1);
-                            // startActivity(shareIntent);
-                        }
+                        // Refresh activity
+                        finish();
+                        startActivity(getIntent());
+                    }
+                    else if ("Share".equals(options[which])){
+                        Log.d("Debug", "Share clicked");
+
+                        // Remove the strict mode policies
+                        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                        StrictMode.setVmPolicy(builder.build());
+
+                        Log.d(this.getClass().getSimpleName(), "Grid item clicked");
+                        Uri u = Uri.fromFile(f);
+
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("Image/*");
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, u);
+
+                        startActivityForResult(shareIntent, 1);
+                        // startActivity(shareIntent);
+                    }
                     }
                 });
                 builder.show();
