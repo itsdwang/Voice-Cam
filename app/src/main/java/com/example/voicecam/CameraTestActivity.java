@@ -174,4 +174,18 @@ public class CameraTestActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void flipCamera(View view) {
+        cameraKitView.toggleFacing();
+    }
+
+    public void setFlash(View view) {
+        if(cameraKitView.getFlash() == CameraKit.FLASH_OFF){
+            cameraKitView.setFlash(CameraKit.FLASH_ON);
+        }else{
+            cameraKitView.setFlash(CameraKit.FLASH_OFF);
+        }
+
+    }
 }
