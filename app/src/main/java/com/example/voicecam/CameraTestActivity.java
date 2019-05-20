@@ -183,9 +183,16 @@ public class CameraTestActivity extends AppCompatActivity {
     public void setFlash(View view) {
         if(cameraKitView.getFlash() == CameraKit.FLASH_OFF){
             cameraKitView.setFlash(CameraKit.FLASH_ON);
-        }else{
+            Toast.makeText(getApplicationContext(), "Flash on", Toast.LENGTH_SHORT).show();
+        } else{
             cameraKitView.setFlash(CameraKit.FLASH_OFF);
+            Toast.makeText(getApplicationContext(), "Flash off", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void accessSettings(View view) {
+        Intent settingsIntent = new Intent(this, SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 }

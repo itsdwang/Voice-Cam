@@ -17,17 +17,10 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" >
-
+        app:layout_constraintVertical_bias="0.0">
 
     </com.camerakit.CameraKitView>
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="flipCamera"
-        android:text="Button" />
     <TextView
         android:id="@+id/countdownTextView"
         android:layout_width="wrap_content"
@@ -35,6 +28,33 @@
         android:layout_centerInParent="true"
         android:textColor="#FFFFFF"
         android:textSize="70sp" />
+
+
+    <Button
+        android:id="@+id/settingsBtn"
+        android:layout_width="32dp"
+        android:layout_height="37dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="361dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/ic_settings_black_24dp"
+        android:onClick="accessSettings"/>
+
+    <Button
+        android:id="@+id/setFlashBtn"
+        android:layout_width="32dp"
+        android:layout_height="37dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="361dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/ic_flash_on_black_24dp"
+        android:onClick="setFlash" />
 
     <Button
         android:id="@+id/takePhotoBtn"
@@ -55,14 +75,16 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/toggleFacingBtn"
+        android:layout_width="40dp"
+        android:layout_height="33dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="118dp"
-        android:layout_marginEnd="117dp"
-        android:layout_toEndOf="@+id/button2"
-        android:onClick="setFlash"
-        android:text="Button" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="623dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginBottom="47dp"
+        android:background="@drawable/ic_switch_camera_black_24dp"
+        android:onClick="flipCamera" />
 
 </RelativeLayout>
