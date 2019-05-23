@@ -116,7 +116,6 @@ public class CameraTestActivity extends AppCompatActivity {
                         final CountDownTimer countDownTimer = new CountDownTimer(countdownLen * 1000, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
-                                // countdownTextView.setText("" + (int) (millisUntilFinished / 1000));
                                 performTick(millisUntilFinished);
                             }
 
@@ -131,6 +130,8 @@ public class CameraTestActivity extends AppCompatActivity {
                                 countdownTextView.setText(String.valueOf(Math.round(millisUntilFinished * 0.001f)));
                             }
                         }.start();
+                    } else if (matches.get(0).equals("open the gallery")) {
+                        accessGallery(cameraKitView);
                     }
                 }
             }
@@ -164,33 +165,6 @@ public class CameraTestActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        /*
-        try {
-            String message = intent.getStringExtra("message");
-            Log.d("Debug", "Voice command is: " + message);
-
-            if (message.equals("take a picture")) {
-                Log.d("Debug", "Take a picture was said");
-
-                final CountDownTimer countDownTimer = new CountDownTimer(4000, 1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                        countdownTextView.setText("" + (int) (millisUntilFinished / 1000));
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        countdownTextView.setText("");
-                        takePhoto(cameraKitView);
-
-                    }
-                }.start();
-            }
-        } catch(NullPointerException e) {
-            e.printStackTrace();
-        }
-        */
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -315,14 +289,6 @@ public class CameraTestActivity extends AppCompatActivity {
     public void accessSettings(View view) {
         Intent settingsIntent = new Intent(this, SettingsActivity.class);
         startActivity(settingsIntent);
-    }
-
-    public void getSettings(View view) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        // float timer = sharedPreferences.getFloat("example_text", ((float)(3.0)));
-        String timer = sharedPreferences.getString("example_text", "3.0");
-        countdownLen = Integer.parseInt(timer);
-        Log.d("Debug", "Camera timer is " + timer + "seconds");
     }
 
     public void accessGallery(View view) {

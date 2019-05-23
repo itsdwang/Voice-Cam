@@ -47,13 +47,6 @@
         android:onClick="accessGallery"/>
 
     <Button
-        android:id="@+id/getSettingsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:onClick="getSettings"/>
-
-    <Button
         android:id="@+id/settingsBtn"
         android:layout_width="32dp"
         android:layout_height="37dp"
