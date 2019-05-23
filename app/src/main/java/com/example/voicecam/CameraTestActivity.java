@@ -101,8 +101,9 @@ public class CameraTestActivity extends AppCompatActivity {
             @Override
             public void onResults(Bundle results) {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CameraTestActivity.this);
-                String timer = sharedPreferences.getString("example_text", "3.0");
+                String timer = sharedPreferences.getString("example_text", "3");
                 countdownLen = Integer.parseInt(timer);
+                Log.d("Debug", "Countdown length is: " + countdownLen);
 
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
@@ -115,7 +116,8 @@ public class CameraTestActivity extends AppCompatActivity {
                         final CountDownTimer countDownTimer = new CountDownTimer(countdownLen * 1000, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
-                                countdownTextView.setText("" + (int) (millisUntilFinished / 1000));
+                                // countdownTextView.setText("" + (int) (millisUntilFinished / 1000));
+                                performTick(millisUntilFinished);
                             }
 
                             @Override
@@ -123,6 +125,10 @@ public class CameraTestActivity extends AppCompatActivity {
                                 countdownTextView.setText("");
                                 takePhoto(cameraKitView);
 
+                            }
+
+                            void performTick(long millisUntilFinished) {
+                                countdownTextView.setText(String.valueOf(Math.round(millisUntilFinished * 0.001f)));
                             }
                         }.start();
                     }
