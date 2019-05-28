@@ -73,6 +73,19 @@
         android:onClick="setFlash" />
 
     <Button
+        android:id="@+id/addCmdsBtn"
+        android:layout_width="32dp"
+        android:layout_height="37dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="361dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/ic_record_voice_over_black_8dp"
+        android:onClick="addCmds" />
+
+    <Button
         android:id="@+id/takePhotoBtn"
         android:layout_width="72dp"
         android:layout_height="60dp"

@@ -65,8 +65,19 @@ public class CameraTestActivity extends AppCompatActivity {
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
+        // Add default voice commands
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // Key for shared preferences will be the voice command ACTION
+        editor.putString(Command.TAKE_PHOTO,"Cheese");
+        editor.putString(Command.OPEN_GALLERY, "Please open the gallery");
+        editor.putString(Command.TOGGLE_FLASH,"Change the flash");
+        editor.apply();
+
         mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle params) {
@@ -306,5 +317,10 @@ public class CameraTestActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    public void addCmds(View view) {
+        Intent intent = new Intent(CameraTestActivity.this, CommandsActivity.class);
+        startActivity(intent);
     }
 }

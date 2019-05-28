@@ -30,4 +30,6 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_add_friends_to_messages" />
 
+    <Preference android:title="Add a key phrase"
+        android:key="keyPhraseBtn" />
 </PreferenceScreen>
