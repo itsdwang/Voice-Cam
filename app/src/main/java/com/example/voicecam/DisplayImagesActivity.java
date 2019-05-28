@@ -122,9 +122,11 @@ public class DisplayImagesActivity extends AppCompatActivity {
 
                             renameFile(f, renamedFile + ".jpg");
 
-                            // Refresh activity
+                            // Refresh activity without animation
                             finish();
+                            overridePendingTransition( 0, 0);
                             startActivity(getIntent());
+                            overridePendingTransition( 0, 0);
                             }
                         });
 
@@ -144,7 +146,9 @@ public class DisplayImagesActivity extends AppCompatActivity {
 
                         // Refresh activity
                         finish();
+                        overridePendingTransition( 0, 0);
                         startActivity(getIntent());
+                        overridePendingTransition( 0, 0);
                     }
                     else if ("Share".equals(options[which])){
                         Log.d("Debug", "Share clicked");

@@ -8,7 +8,7 @@ public class Command {
     public static final String OPEN_GALLERY = "Open gallery";
     public static final String TOGGLE_FLASH = "Toggle flash";
 
-    public String[] allActions = {Command.TAKE_PHOTO, Command.OPEN_GALLERY, Command.TOGGLE_FLASH};
+    public static String[] allActions = {Command.TAKE_PHOTO, Command.OPEN_GALLERY, Command.TOGGLE_FLASH};
 
     public Command(String command, String action) {
         this.command = "\"" + command + "\"";
