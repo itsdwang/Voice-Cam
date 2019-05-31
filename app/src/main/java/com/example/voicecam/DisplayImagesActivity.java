@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.os.StrictMode;
@@ -22,8 +23,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.uvstudio.him.photofilterlibrary.PhotoFilter;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,7 +38,8 @@ public class DisplayImagesActivity extends AppCompatActivity {
     GridView gridView;
     ImageAdapter imgAdapter = null;
     ImageItem[] imgItemArr;
-    String[] options = {"Rename", "Delete", "Share"};
+    String[] options = {"Rename", "Delete", "Share", "Filters"};
+    String[] filterOptions = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen"};
     String renamedFile = "";
 
     @Override
@@ -95,7 +101,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ImageItem i = (ImageItem) parent.getItemAtPosition(position);
+                final ImageItem i = (ImageItem) parent.getItemAtPosition(position);
                 final File f = i.getFile();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(DisplayImagesActivity.this);
@@ -166,6 +172,76 @@ public class DisplayImagesActivity extends AppCompatActivity {
 
                         startActivityForResult(shareIntent, 1);
                     }
+                    else if ("Filters".equals(options[which])) {
+                        final String oldFileName = f.getName();
+                        final AlertDialog.Builder filterBuilder = new AlertDialog.Builder(DisplayImagesActivity.this);
+                        final PhotoFilter photoFilter = new PhotoFilter();
+
+
+                        filterBuilder.setTitle("Filters");
+                        filterBuilder.setItems(filterOptions, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if ("One".equals(filterOptions[which])){
+                                    Bitmap newPhoto = photoFilter.one(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_one", newPhoto);
+                                } else if ("Two".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.two(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_two", newPhoto);
+                                } else if ("Three".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.three(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_three", newPhoto);
+                                } else if ("Four".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.four(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_four", newPhoto);
+                                } else if ("Five".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.five(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_five", newPhoto);
+                                } else if ("Six".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.six(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_six", newPhoto);
+                                } else if ("Seven".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.seven(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_seven", newPhoto);
+                                } else if ("Eight".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.eight(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_eight", newPhoto);
+                                } else if ("Nine".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.nine(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_nine", newPhoto);
+                                } else if ("Ten".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.ten(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_ten", newPhoto);
+                                } else if ("Eleven".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.eleven(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_eleven", newPhoto);
+                                } else if ("Twelve".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.twelve(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_twelve", newPhoto);
+                                } else if ("Thirteen".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.thirteen(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_thirteen", newPhoto);
+                                } else if ("Fourteen".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.fourteen(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_fourteen", newPhoto);
+                                } else if ("Fifteen".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.fifteen(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_fifteen", newPhoto);
+                                } else if ("Sixteen".equals(filterOptions[which])) {
+                                    Bitmap newPhoto = photoFilter.sixteen(getApplicationContext(), i.getImage());
+                                    saveFile(oldFileName + "_sixteen", newPhoto);
+                                }
+
+                                finish();
+                                overridePendingTransition( 0, 0);
+                                startActivity(getIntent());
+                                overridePendingTransition( 0, 0);
+                            }
+                        });
+
+                        filterBuilder.show();
+
+                    }
                     }
                 });
                 builder.show();
@@ -180,5 +256,28 @@ public class DisplayImagesActivity extends AppCompatActivity {
 
         File newFile = new File(directory, s);
         f.renameTo(newFile);
+    }
+
+    public void saveFile(String fileName, Bitmap bm) {
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath = new File(directory,fileName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bm.compress(Bitmap.CompressFormat.JPEG, 60, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
