@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Camera;
 import android.media.MediaActionSound;
 import android.net.Uri;
 import android.os.Build;
@@ -47,7 +46,6 @@ public class CameraTestActivity extends AppCompatActivity {
     private CameraKitView cameraKitView;
     private static final int PERMISSION_REQUEST_CODE = 200;
     private static final int WRITE_REQUEST_CODE = 201;
-    private static int imgNum = 1;
 
     private TextView countdownTextView, voiceCmdTextView;
     private SpeechRecognizer mSpeechRecognizer;
@@ -63,7 +61,6 @@ public class CameraTestActivity extends AppCompatActivity {
         countdownTextView = findViewById(R.id.countdownTextView);
         voiceCmdTextView = findViewById(R.id.voiceCmdTextView);
 
-        Intent intent = getIntent();
         checkPermission();
 
         mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -71,54 +68,28 @@ public class CameraTestActivity extends AppCompatActivity {
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
 
-        // Add default voice commands
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        // Key for shared preferences will be the voice command ACTION
-        /*
-        editor.putString(Command.TAKE_PHOTO,"Cheese");
-        editor.putString(Command.OPEN_GALLERY, "Please open the gallery");
-        editor.putString(Command.TOGGLE_FLASH,"Change the flash");
-        editor.apply();
-        */
-
         mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
-            public void onReadyForSpeech(Bundle params) {
-
-            }
+            public void onReadyForSpeech(Bundle params) {}
 
             @Override
-            public void onBeginningOfSpeech() {
-
-            }
+            public void onBeginningOfSpeech() {}
 
             @Override
-            public void onRmsChanged(float rmsdB) {
-
-            }
+            public void onRmsChanged(float rmsdB) {}
 
             @Override
-            public void onBufferReceived(byte[] buffer) {
-
-            }
+            public void onBufferReceived(byte[] buffer) {}
 
             @Override
-            public void onEndOfSpeech() {
-
-            }
+            public void onEndOfSpeech() {}
 
             @Override
-            public void onError(int error) {
-
-            }
+            public void onError(int error) {}
 
             @Override
             public void onResults(Bundle results) {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CameraTestActivity.this);
-                // String timer = sharedPreferences.getString("example_text", "3");
                 String timer = sharedPreferences.getString("timerLength","3");
 
                 String photoVoiceCmd = sharedPreferences.getString(Command.TAKE_PHOTO, "take a photo");
@@ -138,7 +109,6 @@ public class CameraTestActivity extends AppCompatActivity {
 
                 if(matches != null) {
                     voiceCmdTextView.setText(matches.get(0));
-                    // if (matches.get(0).equals("take a picture")) {
                     if (matches.get(0).equals(photoVoiceCmd)) {
                         Log.d("Debug", "Take a picture was said");
 
@@ -159,7 +129,6 @@ public class CameraTestActivity extends AppCompatActivity {
                             }
                         }.start();
                     }
-                    // else if (matches.get(0).equals("open the gallery")) {
                     else if (matches.get(0).equals(galleryVoiceCmd)) {
                         accessGallery(cameraKitView);
                     }
@@ -274,7 +243,7 @@ public class CameraTestActivity extends AppCompatActivity {
         cameraKitView.captureImage(new CameraKitView.ImageCallback() {
             @Override
             public void onImage(CameraKitView cameraKitView, final byte[] capturedImage) {
-                // Refresh the activity seems to
+                // Refresh the activity
                 finish();
                 overridePendingTransition( 0, 0);
                 startActivity(getIntent());
@@ -293,7 +262,6 @@ public class CameraTestActivity extends AppCompatActivity {
                 // path to /data/data/VoiceCam/app_data/imageDir
                 File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
                 File myPath = new File(directory,currentDateTimeString + ".jpg");
-                imgNum++;
 
                 FileOutputStream fos = null;
                 Bitmap bitmapImage = BitmapFactory.decodeByteArray(capturedImage, 0, capturedImage.length);
@@ -363,7 +331,6 @@ public class CameraTestActivity extends AppCompatActivity {
         numberPicker.setMinValue(0);
         numberPicker.setValue(Integer.parseInt(preferences.getString("timerLength", "3")));
 
-
         AlertDialog.Builder builder = new AlertDialog.Builder(CameraTestActivity.this);
         builder.setTitle("Change timer duration");
         builder.setMessage("Choose a value");
@@ -373,12 +340,7 @@ public class CameraTestActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int timerLength = numberPicker.getValue();
-                // dialoghost.onPositiveButton(numberPicker.getValue());
-                // Toast.makeText(CameraTestActivity.this,numberPicker.getValue())
                 Log.d("Debug","user chose " + numberPicker.getValue());
-
-                // SharedPreferences.
-                // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CameraTestActivity.this);
 
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("timerLength", Integer.toString(timerLength));
@@ -390,8 +352,6 @@ public class CameraTestActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-
-
             }
         });
 
@@ -400,12 +360,6 @@ public class CameraTestActivity extends AppCompatActivity {
         builder.show();
     }
 }
-
-
-
-
-
-
 
 
 

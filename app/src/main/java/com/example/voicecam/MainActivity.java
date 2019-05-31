@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
                 if(matches != null) {
-                    // editText.setText(matches.get(0));
-
                     if (matches.get(0).equals("take a picture")) {
                         Intent intent = new Intent(MainActivity.this, CameraTestActivity.class);
                         intent.putExtra("message", "take a picture");

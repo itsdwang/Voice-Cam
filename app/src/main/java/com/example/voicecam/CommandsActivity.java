@@ -11,14 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.app.AlertDialog;
 
-
 import java.util.ArrayList;
-import java.util.Map;
 
 public class CommandsActivity extends AppCompatActivity {
     private static final String TAG = "CommandsActivity";
@@ -34,22 +31,7 @@ public class CommandsActivity extends AppCompatActivity {
         // Load whatever commands are in sharedPreferences (either default or user-changed ones)
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        /*
-        Map<String, ?> allEntries = preferences.getAll();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
-        }
-        */
-
         ArrayList<Command> cmdList = new ArrayList<>();
-
-        /*
-        for (String thisCommand : Command.allActions) {
-            String voiceCmd = preferences.getString(thisCommand, "mistake");
-            Command newCmd = new Command(voiceCmd, thisCommand);
-
-            cmdList.add(newCmd);
-        }*/
 
         String photoVoiceCmd = preferences.getString(Command.TAKE_PHOTO, "Take a photo");
         Command photoCmd = new Command(photoVoiceCmd, Command.TAKE_PHOTO);
@@ -64,7 +46,6 @@ public class CommandsActivity extends AppCompatActivity {
         cmdList.add(galleryCmd);
         cmdList.add(flashCmd);
 
-
         CommandListAdapter adapter = new CommandListAdapter(this, R.layout.cmds_adapter_view_layout, cmdList);
         mListView.setAdapter(adapter);
 
@@ -72,13 +53,12 @@ public class CommandsActivity extends AppCompatActivity {
         ViewGroup myHeader = (ViewGroup)layoutInflater.inflate(R.layout.header, mListView, false);
         mListView.addHeaderView(myHeader, null, false);
 
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Command c = (Command) parent.getItemAtPosition(position);
-                Log.d("Debug", "Command clicked on is:  " + c.getCommand());
-                Log.d("Debug", "action clicked on is:  " + c.getAction());
+                Log.d("Debug", "Command: " + c.getCommand());
+                Log.d("Debug", "Action: " + c.getAction());
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(CommandsActivity.this);
                 builder.setTitle("Edit voice command");
