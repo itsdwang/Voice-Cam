@@ -1,13 +1,16 @@
 package com.example.voicecam;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Camera;
 import android.media.MediaActionSound;
 import android.net.Uri;
 import android.os.Build;
@@ -25,10 +28,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import android.os.Handler;
 
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
@@ -46,10 +48,11 @@ public class CameraTestActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 200;
     private static final int WRITE_REQUEST_CODE = 201;
     private static int imgNum = 1;
-    private TextView countdownTextView;
-    SpeechRecognizer mSpeechRecognizer;
-    Intent mSpeechRecognizerIntent;
-    EditText editText;
+
+    private TextView countdownTextView, voiceCmdTextView;
+    private SpeechRecognizer mSpeechRecognizer;
+    private Intent mSpeechRecognizerIntent;
+    private EditText editText;
     private static int countdownLen;
 
     @Override
@@ -58,6 +61,7 @@ public class CameraTestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera_test);
         cameraKitView = findViewById(R.id.camera);
         countdownTextView = findViewById(R.id.countdownTextView);
+        voiceCmdTextView = findViewById(R.id.voiceCmdTextView);
 
         Intent intent = getIntent();
         checkPermission();
@@ -73,10 +77,12 @@ public class CameraTestActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
 
         // Key for shared preferences will be the voice command ACTION
+        /*
         editor.putString(Command.TAKE_PHOTO,"Cheese");
         editor.putString(Command.OPEN_GALLERY, "Please open the gallery");
         editor.putString(Command.TOGGLE_FLASH,"Change the flash");
         editor.apply();
+        */
 
         mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
@@ -112,16 +118,28 @@ public class CameraTestActivity extends AppCompatActivity {
             @Override
             public void onResults(Bundle results) {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CameraTestActivity.this);
-                String timer = sharedPreferences.getString("example_text", "3");
+                // String timer = sharedPreferences.getString("example_text", "3");
+                String timer = sharedPreferences.getString("timerLength","3");
+
+                String photoVoiceCmd = sharedPreferences.getString(Command.TAKE_PHOTO, "take a photo");
+                photoVoiceCmd = photoVoiceCmd.toLowerCase();
+
+                String galleryVoiceCmd = sharedPreferences.getString(Command.OPEN_GALLERY, "open the gallery");
+                galleryVoiceCmd = galleryVoiceCmd.toLowerCase();
+
+                String flashVoiceCmd = sharedPreferences.getString(Command.TOGGLE_FLASH, "Toggle the flash");
+                flashVoiceCmd = flashVoiceCmd.toLowerCase();
+
                 countdownLen = Integer.parseInt(timer);
                 Log.d("Debug", "Countdown length is: " + countdownLen);
 
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-                if(matches != null) {
-                    // editText.setText(matches.get(0));
 
-                    if (matches.get(0).equals("take a picture")) {
+                if(matches != null) {
+                    voiceCmdTextView.setText(matches.get(0));
+                    // if (matches.get(0).equals("take a picture")) {
+                    if (matches.get(0).equals(photoVoiceCmd)) {
                         Log.d("Debug", "Take a picture was said");
 
                         final CountDownTimer countDownTimer = new CountDownTimer(countdownLen * 1000, 1000) {
@@ -134,15 +152,19 @@ public class CameraTestActivity extends AppCompatActivity {
                             public void onFinish() {
                                 countdownTextView.setText("");
                                 takePhoto(cameraKitView);
-
                             }
 
                             void performTick(long millisUntilFinished) {
                                 countdownTextView.setText(String.valueOf(Math.round(millisUntilFinished * 0.001f)));
                             }
                         }.start();
-                    } else if (matches.get(0).equals("open the gallery")) {
+                    }
+                    // else if (matches.get(0).equals("open the gallery")) {
+                    else if (matches.get(0).equals(galleryVoiceCmd)) {
                         accessGallery(cameraKitView);
+                    }
+                    else if (matches.get(0).equals(flashVoiceCmd)) {
+                        setFlash(cameraKitView);
                     }
                 }
             }
@@ -163,12 +185,19 @@ public class CameraTestActivity extends AppCompatActivity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch(motionEvent.getAction()) {
                     case MotionEvent.ACTION_UP:
+                        // voiceCmdTextView.setText("");
+
                         mSpeechRecognizer.stopListening();
+                        voiceCmdTextView.setHint("You will see input here");
+                        // voiceCmdTextView.setText("");
                         // editText.setHint("Voice input will be seen here");
                         break;
                     case MotionEvent.ACTION_DOWN:
                         // editText.setText("");
                         // editText.setHint("Listening...");
+                        // voiceCmdTextView.setText("");
+                        voiceCmdTextView.setText("");
+                        voiceCmdTextView.setHint("Listening...");
                         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
                         break;
                 }
@@ -242,12 +271,15 @@ public class CameraTestActivity extends AppCompatActivity {
             Log.d("Debug", "Permission granted for external storage");
         }
 
-        // MediaActionSound sound = new MediaActionSound();
-        // sound.play(MediaActionSound.SHUTTER_CLICK);
-
         cameraKitView.captureImage(new CameraKitView.ImageCallback() {
             @Override
             public void onImage(CameraKitView cameraKitView, final byte[] capturedImage) {
+                // Refresh the activity seems to
+                finish();
+                overridePendingTransition( 0, 0);
+                startActivity(getIntent());
+                overridePendingTransition( 0, 0);
+
                 Log.d("Debug", "Inside takePhoto method, captureImage");
                 Toast.makeText(getApplicationContext(), "Photo taken", Toast.LENGTH_SHORT).show();
 
@@ -281,7 +313,6 @@ public class CameraTestActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public void flipCamera(View view) {
         cameraKitView.toggleFacing();
@@ -323,4 +354,72 @@ public class CameraTestActivity extends AppCompatActivity {
         Intent intent = new Intent(CameraTestActivity.this, CommandsActivity.class);
         startActivity(intent);
     }
+
+    public void setTimer(View view) {
+        final NumberPicker numberPicker = new NumberPicker(CameraTestActivity.this);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CameraTestActivity.this);
+
+        numberPicker.setMaxValue(25);
+        numberPicker.setMinValue(0);
+        numberPicker.setValue(Integer.parseInt(preferences.getString("timerLength", "3")));
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CameraTestActivity.this);
+        builder.setTitle("Change timer duration");
+        builder.setMessage("Choose a value");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int timerLength = numberPicker.getValue();
+                // dialoghost.onPositiveButton(numberPicker.getValue());
+                // Toast.makeText(CameraTestActivity.this,numberPicker.getValue())
+                Log.d("Debug","user chose " + numberPicker.getValue());
+
+                // SharedPreferences.
+                // SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CameraTestActivity.this);
+
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("timerLength", Integer.toString(timerLength));
+                editor.apply();
+            }
+
+        });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+
+
+            }
+        });
+
+        builder.setView(numberPicker);
+        builder.create();
+        builder.show();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

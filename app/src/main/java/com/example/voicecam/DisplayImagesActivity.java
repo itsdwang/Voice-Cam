@@ -144,7 +144,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
 
                         f.delete();
 
-                        // Refresh activity
+                        // Refresh activity without animation
                         finish();
                         overridePendingTransition( 0, 0);
                         startActivity(getIntent());
@@ -165,7 +165,6 @@ public class DisplayImagesActivity extends AppCompatActivity {
                         shareIntent.putExtra(Intent.EXTRA_STREAM, u);
 
                         startActivityForResult(shareIntent, 1);
-                        // startActivity(shareIntent);
                     }
                     }
                 });

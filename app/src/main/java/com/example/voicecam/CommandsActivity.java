@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -20,7 +22,7 @@ import java.util.Map;
 
 public class CommandsActivity extends AppCompatActivity {
     private static final String TAG = "CommandsActivity";
-    String m_Text;
+    private String m_Text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,44 +31,52 @@ public class CommandsActivity extends AppCompatActivity {
 
         ListView mListView = (ListView) findViewById(R.id.listView);
 
-        // Let's see all sharedpreference vals
-
         // Load whatever commands are in sharedPreferences (either default or user-changed ones)
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        /*
         Map<String, ?> allEntries = preferences.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
         }
+        */
 
         ArrayList<Command> cmdList = new ArrayList<>();
 
+        /*
         for (String thisCommand : Command.allActions) {
             String voiceCmd = preferences.getString(thisCommand, "mistake");
             Command newCmd = new Command(voiceCmd, thisCommand);
 
             cmdList.add(newCmd);
-        }
+        }*/
 
-        /*
-        Command c1 = new Command("Take a picture", Command.TAKE_PHOTO);
-        Command c2 = new Command("Open the gallery", Command.OPEN_GALLERY);
-        Command c3 = new Command("Toggle the flash", Command.TOGGLE_FLASH);
+        String photoVoiceCmd = preferences.getString(Command.TAKE_PHOTO, "Take a photo");
+        Command photoCmd = new Command(photoVoiceCmd, Command.TAKE_PHOTO);
 
-        ArrayList<Command> cmdList = new ArrayList<>();
-        cmdList.add(c1);
-        cmdList.add(c2);
-        cmdList.add(c3);
-        */
+        String galleryVoiceCmd = preferences.getString(Command.OPEN_GALLERY, "Open the gallery");
+        Command galleryCmd = new Command(galleryVoiceCmd, Command.OPEN_GALLERY);
+
+        String flashVoiceCmd = preferences.getString(Command.TOGGLE_FLASH, "Toggle the flash");
+        Command flashCmd = new Command(flashVoiceCmd, Command.TOGGLE_FLASH);
+
+        cmdList.add(photoCmd);
+        cmdList.add(galleryCmd);
+        cmdList.add(flashCmd);
+
 
         CommandListAdapter adapter = new CommandListAdapter(this, R.layout.cmds_adapter_view_layout, cmdList);
         mListView.setAdapter(adapter);
+
+        LayoutInflater layoutInflater = getLayoutInflater();
+        ViewGroup myHeader = (ViewGroup)layoutInflater.inflate(R.layout.header, mListView, false);
+        mListView.addHeaderView(myHeader, null, false);
+
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Command c = (Command) parent.getItemAtPosition(position);
-                // String eText = e.getText().toString();
                 Log.d("Debug", "Command clicked on is:  " + c.getCommand());
                 Log.d("Debug", "action clicked on is:  " + c.getAction());
 
@@ -107,7 +117,6 @@ public class CommandsActivity extends AppCompatActivity {
                 });
 
                 builder.show();
-
             }
         });
     }

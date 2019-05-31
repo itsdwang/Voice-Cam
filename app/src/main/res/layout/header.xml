@@ -3,26 +3,30 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linearLayout2"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="100">
 
 <TextView
-    android:id="@+id/textView1"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:layout_height="wrap_content"
-    android:text="Voice Command"
-    android:layout_gravity="left"
-    android:background="#88FF0000"/>
-
-<TextView
-    android:id="@+id/textView2"
-    android:layout_width="0dp"
-    android:layout_weight="1"
+    android:id="@+id/actionTitleTextView"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Action"
-    android:layout_gravity="right"
-    android:background="#8800FF00"/>
+    android:textSize="24sp"
+    android:textColor="@color/black"
+    android:layout_weight="50"
+    android:gravity="center"
+    android:textAlignment="center" />
+
+<TextView
+    android:id="@+id/commandTitleTextView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="50"
+    android:text="Voice Command"
+    android:textColor="@color/black"
+    android:textSize="24sp"
+    android:layout_gravity="center" />
 
 </LinearLayout>

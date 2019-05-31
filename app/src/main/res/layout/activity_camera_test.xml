@@ -22,6 +22,33 @@
 
     </com.camerakit.CameraKitView>
 
+    <EditText
+        android:id="@+id/voiceCmdTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="222dp"
+        android:layout_marginEnd="0dp"
+        android:text=""
+        android:textSize="24sp"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/timerBtn"
+        android:layout_width="32dp"
+        android:layout_height="37dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="362dp"
+        android:background="@drawable/ic_timer_white_8dp"
+        android:onClick="setTimer" />
+
     <TextView
         android:id="@+id/countdownTextView"
         android:layout_width="wrap_content"
@@ -42,7 +69,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="18dp"
         android:background="@drawable/ic_settings_black_24dp"
-        android:onClick="accessSettings"/>
+        android:onClick="accessSettings"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/setFlashBtn"
@@ -51,9 +79,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="361dp"
-        android:layout_marginTop="65dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginStart="360dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="19dp"
         android:background="@drawable/ic_flash_on_black_24dp"
         android:onClick="setFlash" />
 
@@ -64,9 +92,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="361dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginEnd="18dp"
+        android:layout_marginStart="359dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/ic_record_voice_over_black_8dp"
         android:onClick="addCmds" />
 
@@ -115,14 +143,14 @@
 
     <Button
         android:id="@+id/galleryBtn"
-        android:layout_width="77dp"
-        android:layout_height="98dp"
+        android:layout_width="53dp"
+        android:layout_height="8dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="61dp"
-        android:layout_marginTop="598dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginStart="78dp"
+        android:layout_marginTop="678dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/ic_photo_library_black_24dp"
         android:onClick="accessGallery" />
 
