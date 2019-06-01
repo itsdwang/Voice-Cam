@@ -1,6 +1,7 @@
 package com.example.voicecam;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -33,7 +34,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
     GridView gridView;
     ImageAdapter imgAdapter = null;
     ImageItem[] imgItemArr;
-    String[] options = {"Rename", "Delete", "Share", "Filters"};
+    String[] options = {"Rename", "Delete", "Add a filter", "Share"};
     String[] filterOptions = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen"};
     String renamedFile = "";
 
@@ -73,9 +74,9 @@ public class DisplayImagesActivity extends AppCompatActivity {
         imgAdapter = new ImageAdapter(this, R.layout.grid_item_layout, arrList);
         gridView.setAdapter(imgAdapter);
 
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ImageItem i = (ImageItem) parent.getItemAtPosition(position);
                 Bitmap bmp = i.getImage();
 
@@ -87,13 +88,13 @@ public class DisplayImagesActivity extends AppCompatActivity {
                 intent.putExtra("picture", byteArray);
                 startActivity(intent);
 
-                return true;
+                // return true;
             }
         });
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final ImageItem i = (ImageItem) parent.getItemAtPosition(position);
                 final File f = i.getFile();
 
@@ -116,16 +117,16 @@ public class DisplayImagesActivity extends AppCompatActivity {
                             nameBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                renamedFile = input.getText().toString();
-                                Log.d("Debug", "Renamed File: " + renamedFile + ".jpg");
+                                    renamedFile = input.getText().toString();
+                                    Log.d("Debug", "Renamed File: " + renamedFile + ".jpg");
 
-                                renameFile(f, renamedFile + ".jpg");
+                                    renameFile(f, renamedFile + ".jpg");
 
-                                // Refresh activity without animation
-                                finish();
-                                overridePendingTransition( 0, 0);
-                                startActivity(getIntent());
-                                overridePendingTransition( 0, 0);
+                                    // Refresh activity without animation
+                                    finish();
+                                    overridePendingTransition( 0, 0);
+                                    startActivity(getIntent());
+                                    overridePendingTransition( 0, 0);
                                 }
                             });
 
@@ -165,11 +166,10 @@ public class DisplayImagesActivity extends AppCompatActivity {
 
                             startActivityForResult(shareIntent, 1);
                         }
-                        else if ("Filters".equals(options[which])) {
+                        else if ("Add a filter".equals(options[which])) {
                             final String oldFileName = f.getName();
                             final AlertDialog.Builder filterBuilder = new AlertDialog.Builder(DisplayImagesActivity.this);
                             final PhotoFilter photoFilter = new PhotoFilter();
-
 
                             filterBuilder.setTitle("Filters");
                             filterBuilder.setItems(filterOptions, new DialogInterface.OnClickListener() {
@@ -237,9 +237,10 @@ public class DisplayImagesActivity extends AppCompatActivity {
                     }
                 });
                 builder.show();
+
+                return true;
             }
         });
-
     }
 
     public void renameFile(File f, String s) {
