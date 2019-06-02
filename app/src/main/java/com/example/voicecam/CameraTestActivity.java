@@ -106,10 +106,12 @@ public class CameraTestActivity extends AppCompatActivity {
 
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
+                Log.d("Debug", "flash command is " + flashVoiceCmd);
 
+                String voiceCmdToLower = matches.get(0).toLowerCase();
                 if(matches != null) {
-                    voiceCmdTextView.setText(matches.get(0));
-                    if (matches.get(0).equals(photoVoiceCmd)) {
+                    voiceCmdTextView.setText(voiceCmdToLower);
+                    if (voiceCmdToLower.equals(photoVoiceCmd)) {
                         Log.d("Debug", "Take a picture was said");
 
                         final CountDownTimer countDownTimer = new CountDownTimer(countdownLen * 1000, 1000) {
@@ -122,6 +124,7 @@ public class CameraTestActivity extends AppCompatActivity {
                             public void onFinish() {
                                 countdownTextView.setText("");
                                 takePhoto(cameraKitView);
+                                voiceCmdTextView.setText("");
                             }
 
                             void performTick(long millisUntilFinished) {
@@ -129,11 +132,13 @@ public class CameraTestActivity extends AppCompatActivity {
                             }
                         }.start();
                     }
-                    else if (matches.get(0).equals(galleryVoiceCmd)) {
+                    else if (voiceCmdToLower.equals(galleryVoiceCmd)) {
                         accessGallery(cameraKitView);
+                        voiceCmdTextView.setText("");
                     }
-                    else if (matches.get(0).equals(flashVoiceCmd)) {
+                    else if (voiceCmdToLower.equals(flashVoiceCmd)) {
                         setFlash(cameraKitView);
+                        voiceCmdTextView.setText("");
                     }
                 }
             }
@@ -157,7 +162,7 @@ public class CameraTestActivity extends AppCompatActivity {
                         // voiceCmdTextView.setText("");
 
                         mSpeechRecognizer.stopListening();
-                        voiceCmdTextView.setHint("You will see input here");
+                        //voiceCmdTextView.setHint("You will see input here");
                         // voiceCmdTextView.setText("");
                         // editText.setHint("Voice input will be seen here");
                         break;
@@ -166,7 +171,7 @@ public class CameraTestActivity extends AppCompatActivity {
                         // editText.setHint("Listening...");
                         // voiceCmdTextView.setText("");
                         voiceCmdTextView.setText("");
-                        voiceCmdTextView.setHint("Listening...");
+                        //voiceCmdTextView.setHint("Listening...");
                         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
                         break;
                 }

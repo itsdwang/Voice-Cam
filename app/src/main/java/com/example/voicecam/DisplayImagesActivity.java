@@ -230,6 +230,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
                                         saveFile(oldFileName + "_sixteen", newPhoto);
                                     }
 
+
                                     finish();
                                     overridePendingTransition( 0, 0);
                                     startActivity(getIntent());
