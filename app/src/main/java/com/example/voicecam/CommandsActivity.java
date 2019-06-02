@@ -42,9 +42,18 @@ public class CommandsActivity extends AppCompatActivity {
         String flashVoiceCmd = preferences.getString(Command.TOGGLE_FLASH, "Toggle the flash");
         Command flashCmd = new Command(flashVoiceCmd, Command.TOGGLE_FLASH);
 
+        String toggleFaceVoiceCmd = preferences.getString(Command.FLIP_CAMERA, "flip the camera");
+        Command toggleFaceCmd = new Command(toggleFaceVoiceCmd, Command.FLIP_CAMERA);
+
+        String editCommandVoiceCmd = preferences.getString(Command.EDIT_COMMAND, "edit voice commands");
+        Command editCommandCmd = new Command(editCommandVoiceCmd, Command.EDIT_COMMAND);
+
         cmdList.add(photoCmd);
         cmdList.add(galleryCmd);
         cmdList.add(flashCmd);
+        cmdList.add(toggleFaceCmd);
+        cmdList.add(editCommandCmd);
+
 
         CommandListAdapter adapter = new CommandListAdapter(this, R.layout.cmds_adapter_view_layout, cmdList);
         mListView.setAdapter(adapter);

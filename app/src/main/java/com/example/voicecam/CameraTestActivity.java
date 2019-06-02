@@ -101,6 +101,12 @@ public class CameraTestActivity extends AppCompatActivity {
                 String flashVoiceCmd = sharedPreferences.getString(Command.TOGGLE_FLASH, "Toggle the flash");
                 flashVoiceCmd = flashVoiceCmd.toLowerCase();
 
+                String flipCameraVoiceCmd = sharedPreferences.getString(Command.FLIP_CAMERA, "flip the camera");
+                flipCameraVoiceCmd = flipCameraVoiceCmd.toLowerCase();
+
+                String editCommandVoiceCmd = sharedPreferences.getString(Command.EDIT_COMMAND, "edit the commands");
+                editCommandVoiceCmd = editCommandVoiceCmd.toLowerCase();
+
                 countdownLen = Integer.parseInt(timer);
                 Log.d("Debug", "Countdown length is: " + countdownLen);
 
@@ -108,7 +114,10 @@ public class CameraTestActivity extends AppCompatActivity {
 
                 Log.d("Debug", "flash command is " + flashVoiceCmd);
 
+
                 String voiceCmdToLower = matches.get(0).toLowerCase();
+
+                Log.d("Debug", voiceCmdToLower);
                 if(matches != null) {
                     voiceCmdTextView.setText(voiceCmdToLower);
                     if (voiceCmdToLower.equals(photoVoiceCmd)) {
@@ -138,6 +147,14 @@ public class CameraTestActivity extends AppCompatActivity {
                     }
                     else if (voiceCmdToLower.equals(flashVoiceCmd)) {
                         setFlash(cameraKitView);
+                        voiceCmdTextView.setText("");
+                    }
+                    else if (voiceCmdToLower.equals(flipCameraVoiceCmd)) {
+                        flipCamera(cameraKitView);
+                        voiceCmdTextView.setText("");
+                    }
+                    else if (voiceCmdToLower.equals(editCommandVoiceCmd)) {
+                        addCmds(cameraKitView);
                         voiceCmdTextView.setText("");
                     }
                 }
@@ -292,12 +309,12 @@ public class CameraTestActivity extends AppCompatActivity {
     }
 
     public void setFlash(View view) {
-        if(cameraKitView.getFlash() == CameraKit.FLASH_OFF){
-            cameraKitView.setFlash(CameraKit.FLASH_ON);
-            Toast.makeText(getApplicationContext(), "Flash on", Toast.LENGTH_SHORT).show();
-        } else{
+        if(cameraKitView.getFlash() == CameraKit.FLASH_ON){
             cameraKitView.setFlash(CameraKit.FLASH_OFF);
             Toast.makeText(getApplicationContext(), "Flash off", Toast.LENGTH_SHORT).show();
+        } else{
+            cameraKitView.setFlash(CameraKit.FLASH_ON);
+            Toast.makeText(getApplicationContext(), "Flash on", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -333,7 +350,7 @@ public class CameraTestActivity extends AppCompatActivity {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CameraTestActivity.this);
 
         numberPicker.setMaxValue(25);
-        numberPicker.setMinValue(0);
+        numberPicker.setMinValue(2);
         numberPicker.setValue(Integer.parseInt(preferences.getString("timerLength", "3")));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CameraTestActivity.this);
@@ -363,6 +380,14 @@ public class CameraTestActivity extends AppCompatActivity {
         builder.setView(numberPicker);
         builder.create();
         builder.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mSpeechRecognizer!=null) {
+            mSpeechRecognizer.destroy();
+        }
     }
 }
 

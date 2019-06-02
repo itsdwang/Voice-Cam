@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearLayout2"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="100">
+    android:orientation="vertical">
 
-<TextView
-    android:id="@+id/actionTitleTextView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Action"
-    android:textSize="24sp"
-    android:textColor="@color/black"
-    android:layout_weight="50"
-    android:gravity="center"
-    android:textAlignment="center" />
+    <TextView
+        android:id="@+id/actionTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="70dp"
+        android:layout_toStartOf="@+id/commandTitleTextView"
+        android:fontFamily="@font/aldrich"
+        android:gravity="center"
+        android:text="Action"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="italic" />
 
-<TextView
-    android:id="@+id/commandTitleTextView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="50"
-    android:text="Voice Command"
-    android:textColor="@color/black"
-    android:textSize="24sp"
-    android:layout_gravity="center" />
+    <TextView
+        android:id="@+id/commandTitleTextView"
+        android:layout_width="204dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="9dp"
+        android:fontFamily="@font/aldrich"
+        android:text="Voice Command"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="italic" />
 
-</LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:background="#5682A4" />
+</RelativeLayout>

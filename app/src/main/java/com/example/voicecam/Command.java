@@ -7,6 +7,8 @@ public class Command {
     public static final String TAKE_PHOTO = "Take photo";
     public static final String OPEN_GALLERY = "Open gallery";
     public static final String TOGGLE_FLASH = "Toggle flash";
+    public static final String FLIP_CAMERA = "Flip Camera";
+    public static final String EDIT_COMMAND = "Edit Voice Command";
 
     public static String[] allActions = {Command.TAKE_PHOTO, Command.OPEN_GALLERY, Command.TOGGLE_FLASH};
 

@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/cameraphoto3"
     tools:context=".CommandsActivity">
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listView"/>
+        android:layout_height="match_parent" />
 </RelativeLayout>
