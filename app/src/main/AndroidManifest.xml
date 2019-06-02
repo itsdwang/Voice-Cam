@@ -23,7 +23,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.voicecam.CameraTestActivity" />
         </activity>
-        <activity android:name=".FullImageActivity" />
+        <activity android:name=".FullImageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".DisplayImagesActivity"
             android:theme="@style/AppTheme.NoActionBar" />

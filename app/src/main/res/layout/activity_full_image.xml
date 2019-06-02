@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FullImageActivity">
 
-    <ImageView
+    <com.jsibbold.zoomage.ZoomageView
         android:id="@+id/fullImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true" />
-</LinearLayout>
+        app:zoomage_restrictBounds="false"
+        app:zoomage_animateOnReset="true"
+        app:zoomage_autoResetMode="UNDER"
+        app:zoomage_autoCenter="true"
+        app:zoomage_zoomable="true"
+        app:zoomage_translatable="true"
+        app:zoomage_minScale="0.6"
+        app:zoomage_maxScale="8" />
+
+    <TextView
+        android:id="@+id/imageTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp"
+        android:text="SomeText"
+        android:layout_centerInParent="true"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/moreInfoBtn"
+        android:layout_width="20dp"
+        android:layout_height="22dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/ic_info_white_5dp"
+        android:onClick="moreInfo" />
+</RelativeLayout>

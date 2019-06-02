@@ -60,7 +60,7 @@ public class ImageAdapter extends ArrayAdapter<ImageItem> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(layout, null);
 
-            holder.title = (TextView) row.findViewById(R.id.rowText);
+            // holder.title = (TextView) row.findViewById(R.id.rowText);
             holder.imageView = (ImageView) row.findViewById(R.id.rowImage);
             row.setTag(holder);
         } else {
@@ -68,7 +68,7 @@ public class ImageAdapter extends ArrayAdapter<ImageItem> {
         }
 
         ImageItem i = dbList.get(position);
-        holder.title.setText(i.getName());
+        // holder.title.setText(i.getName());
         holder.imageView.setImageBitmap(i.getImage());
 
         return row;

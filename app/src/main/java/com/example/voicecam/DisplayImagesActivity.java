@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -85,7 +86,11 @@ public class DisplayImagesActivity extends AppCompatActivity {
                 byte[] byteArray = stream.toByteArray();
                 Intent intent = new Intent(DisplayImagesActivity.this, FullImageActivity.class);
 
-                intent.putExtra("picture", byteArray);
+                // Bundle
+
+
+                intent.putExtra("image", byteArray);
+                intent.putExtra("imageName", i.getName());
                 startActivity(intent);
 
                 // return true;
@@ -108,7 +113,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
 
                             // Create another action dialog
                             AlertDialog.Builder nameBuilder = new AlertDialog.Builder(DisplayImagesActivity.this);
-                            nameBuilder.setTitle("Rename Photo");
+                            nameBuilder.setTitle("Rename photo");
 
                             final EditText input = new EditText(DisplayImagesActivity.this);
                             input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);

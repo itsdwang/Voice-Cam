@@ -1,6 +1,8 @@
 package com.example.voicecam;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.File;
 
@@ -38,4 +40,5 @@ public class ImageItem {
     public void setFile(File f) {
         this.f = f;
     }
+
 }
