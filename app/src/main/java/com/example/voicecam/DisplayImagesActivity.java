@@ -36,7 +36,7 @@ public class DisplayImagesActivity extends AppCompatActivity {
     ImageAdapter imgAdapter = null;
     ImageItem[] imgItemArr;
     String[] options = {"Rename", "Delete", "Add a filter", "Share"};
-    String[] filterOptions = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen"};
+    String[] filterOptions = {"X-ray", "Black & White", "Aqua", "Green", "Invert", "Summer", "Angelic", "Bright", "Blacklight", "Cooler", "Highlight", "Sepia", "Sharpen", "Brighter", "Brightest", "Cool Highlight"};
     String renamedFile = "";
 
     @Override
@@ -180,54 +180,54 @@ public class DisplayImagesActivity extends AppCompatActivity {
                             filterBuilder.setItems(filterOptions, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if ("One".equals(filterOptions[which])){
+                                    if ("X-ray".equals(filterOptions[which])){
                                         Bitmap newPhoto = photoFilter.one(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_one", newPhoto);
-                                    } else if ("Two".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_X-ray", newPhoto);
+                                    } else if ("Black & White".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.two(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_two", newPhoto);
-                                    } else if ("Three".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Black & White", newPhoto);
+                                    } else if ("Aqua".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.three(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_three", newPhoto);
-                                    } else if ("Four".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Aqua", newPhoto);
+                                    } else if ("Green".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.four(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_four", newPhoto);
-                                    } else if ("Five".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Green", newPhoto);
+                                    } else if ("Invert".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.five(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_five", newPhoto);
-                                    } else if ("Six".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Invert", newPhoto);
+                                    } else if ("Summer".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.six(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_six", newPhoto);
-                                    } else if ("Seven".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Summer", newPhoto);
+                                    } else if ("Angelic".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.seven(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_seven", newPhoto);
-                                    } else if ("Eight".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Angelic", newPhoto);
+                                    } else if ("Bright".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.eight(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_eight", newPhoto);
-                                    } else if ("Nine".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Bright", newPhoto);
+                                    } else if ("Blacklight".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.nine(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_nine", newPhoto);
-                                    } else if ("Ten".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Blacklight", newPhoto);
+                                    } else if ("Cooler".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.ten(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_ten", newPhoto);
-                                    } else if ("Eleven".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Cooler", newPhoto);
+                                    } else if ("Highlight".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.eleven(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_eleven", newPhoto);
-                                    } else if ("Twelve".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Highlight", newPhoto);
+                                    } else if ("Sepia".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.twelve(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_twelve", newPhoto);
-                                    } else if ("Thirteen".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Sepia", newPhoto);
+                                    } else if ("Sharpen".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.thirteen(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_thirteen", newPhoto);
-                                    } else if ("Fourteen".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Sharpen", newPhoto);
+                                    } else if ("Brighter".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.fourteen(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_fourteen", newPhoto);
-                                    } else if ("Fifteen".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Brighter", newPhoto);
+                                    } else if ("Brightest".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.fifteen(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_fifteen", newPhoto);
-                                    } else if ("Sixteen".equals(filterOptions[which])) {
+                                        saveFile(oldFileName + "_Brightest", newPhoto);
+                                    } else if ("Cool Highlight".equals(filterOptions[which])) {
                                         Bitmap newPhoto = photoFilter.sixteen(getApplicationContext(), i.getImage());
-                                        saveFile(oldFileName + "_sixteen", newPhoto);
+                                        saveFile(oldFileName + "_Cool Highlight", newPhoto);
                                     }
 
 
