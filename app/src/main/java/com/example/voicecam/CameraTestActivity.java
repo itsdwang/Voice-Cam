@@ -272,7 +272,7 @@ public class CameraTestActivity extends AppCompatActivity {
                 overridePendingTransition( 0, 0);
 
                 Log.d("Debug", "Inside takePhoto method, captureImage");
-                Toast.makeText(getApplicationContext(), "Photo taken", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Photo taken", Toast.LENGTH_SHORT).show();
 
                 // Play shutter sound
                 MediaActionSound sound = new MediaActionSound();
