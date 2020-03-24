@@ -1,0 +1,2 @@
+# VoiceCam
+VoiceCam allows users to say customizable phrases to dictate camera actions, such as taking a photo or toggling the camera view. Developed with the intention of removing creative barriers for those with disabilities and allowing them to realize their full potential as photographers, VoiceCam benefits individuals with motor impairments and difficulties interacting with touchscreen devices.
